@@ -5,35 +5,61 @@ Created on Wed Sep 12 16:45:15 2018
 @author: bhanu
 """
 import tkinter #Python with tkinter outputs the fastest and easiest way to create the GUI applications
+import tkinter.scrolledtext as ScrolledText
 
+
+
+import tkinter.filedialog
+#import tkinter.Menu
 '''
 root is the name of the main window object
 classNmae is used to change the name of the window
 default name of the window will be Tk
 '''
-root = tkinter.Tk(className = "MyTextEditor")
+root = tkinter.Tk(className = "TextEditor")
 
-textArea = tkinter.scrolledtext.ScrolledText(root, width = 100, height = 50)
-textArea.pack()
+# defining txext area
+textArea = ScrolledText.ScrolledText(root, width=100, height=80)
 
-#menuOption
-menu = Menu(root)
+
+# FUNCTIONS
+# open a file from menu
+
+
+def openFile():
+    file = tkinter.filedialog.askopenfile(mode='r', title='Select a file')
+    if file != None:
+        contents = file.read()
+        #textArea.delete(1.0, END)
+      #  textArea.destroy()
+        textArea.insert(1.0, contents)
+        file.close()
+     
+    
+
+
+# MenuOption
+
+menu = tkinter.Menu(root)
 root.config(menu=menu)
-
-fileMenu = Menu(menu)
-
+fileMenu = tkinter.Menu(menu)
 menu.add_cascade(label="File",menu=fileMenu)
 fileMenu.add_command(label="New")
-fileMenu.add_command(label="Open")
+fileMenu.add_command(label="Open", command=openFile)
 fileMenu.add_command(label="Save")
 fileMenu.add_command(label="Print")
 fileMenu.add_separator()
 fileMenu.add_command(label="Exit")
 
-helpMenu = Menu(menu)
 
-menu.add_cascade(label="help",menu=helpMenu)
-helpMenu.add_command(label="About Us")
+helpMenu = tkinter.Menu(menu)
+menu.add_cascade(label="Help",menu=helpMenu)
+helpMenu.add_command(label="About")
+
+
+textArea.pack()# allow to write on the defined text area
+root.mainloop()# it open the window untill we close it
+
 
 
 
